@@ -1,10 +1,9 @@
-package io.choigus;
+package io.choigus.screens;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.utils.ScreenUtils;
-import io.choigus.interfaces.Screen;
+import io.choigus.Engine;
+import io.choigus.screens.types.Screen;
 
 public class MenuScreen extends Screen {
     private Texture background;
@@ -28,8 +27,6 @@ public class MenuScreen extends Screen {
     @Override
     public void show () {
         game().assetManager.load("nubby-blush.png", Texture.class);
-
-        // Block until it's loaded (or loop update() in render for a loading bar)
         game().assetManager.finishLoading();
         background = game().assetManager.get("nubby-blush.png", Texture.class);
 

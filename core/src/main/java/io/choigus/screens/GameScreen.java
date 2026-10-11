@@ -1,11 +1,11 @@
-package io.choigus;
+package io.choigus.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.utils.ScreenUtils;
-import io.choigus.interfaces.Screen;
+import io.choigus.Engine;
+import io.choigus.screens.types.FreshScreen;
 
-public class GameScreen extends Screen {
+public class GameScreen extends FreshScreen {
 
     private Texture background;
 
@@ -36,7 +36,6 @@ public class GameScreen extends Screen {
         game().assetManager.load("test.jpg", Texture.class);
         game().assetManager.finishLoading();
         background = game().assetManager.get("test.jpg", Texture.class);
-
     }
 
 
