@@ -3,7 +3,10 @@ package io.choigus.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import io.choigus.Engine;
+import io.choigus.helpers.Utils;
 import io.choigus.screens.types.FreshScreen;
+
+import java.awt.geom.Point2D;
 
 public class GameScreen extends FreshScreen {
 
@@ -26,7 +29,6 @@ public class GameScreen extends FreshScreen {
         engine.batch.begin();
         engine.batch.draw(background, 0, 0);
         engine.batch.end();
-
 
     }
 

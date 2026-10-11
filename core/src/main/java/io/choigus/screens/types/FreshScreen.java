@@ -16,6 +16,7 @@ public abstract class FreshScreen extends Screen {
 
     public void render(float delta){
         ScreenUtils.clear(0f, 0f, 0f, 1f);
+        game.batch.setProjectionMatrix(game.camera.combined);
         onRender(delta);
     }
 

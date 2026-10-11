@@ -3,9 +3,10 @@ package io.choigus.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import io.choigus.Engine;
-import io.choigus.screens.types.Screen;
+import io.choigus.screens.types.FreshScreen;
 
-public class MenuScreen extends Screen {
+
+public class MenuScreen extends FreshScreen {
     private Texture background;
 
     public MenuScreen(Engine game) {
@@ -14,12 +15,12 @@ public class MenuScreen extends Screen {
 
     @Override
     protected void onRender(float delta) {
-
         game().batch.begin();
+
         game().batch.draw(background, 0, 0);
         game().batch.end();
+
         if (Gdx.input.justTouched()) {
-            System.out.println("h");
             game().setScreen(game().gameScreen);
         }
     }

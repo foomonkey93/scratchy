@@ -4,7 +4,7 @@ import com.badlogic.gdx.ScreenAdapter;
 import io.choigus.Engine;
 
 /**
- * Basic screen
+ * Basic screen, doesnt clear background
  */
 public abstract class Screen extends ScreenAdapter {
     Engine game;
@@ -19,6 +19,7 @@ public abstract class Screen extends ScreenAdapter {
     protected abstract void onRender(float delta);
 
     public void render(float delta){
+        game.batch.setProjectionMatrix(game.camera.combined);
         onRender(delta);
     }
 
