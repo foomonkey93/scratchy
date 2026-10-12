@@ -9,10 +9,20 @@ import java.awt.geom.Point2D;
 public class Utils {
 
 
+    /**
+     * Will return the exact center coord of the height and width of the texture
+     * @param t
+     * @return
+     */
     public static Point2D.Float center(Texture t){
-        return new Point2D.Float((Gdx.graphics.getWidth() - t.getWidth() / 2f),(Gdx.graphics.getHeight() - t.getHeight() / 2f));
+        return new Point2D.Float((t.getWidth() / 2f),(t.getHeight() / 2f));
     }
 
+    /**
+     * Will return the exact center coord of the height and width of the texture in comparison to the x and y provided
+     * @param t
+     * @return
+     */
     public static Point2D.Float center(float width, float height,Texture t){
         return new Point2D.Float((width - t.getWidth() / 2f),(height - t.getHeight() / 2f));
     }

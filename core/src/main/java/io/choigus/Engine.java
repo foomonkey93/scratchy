@@ -9,6 +9,9 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import io.choigus.screens.GameScreen;
 import io.choigus.screens.MenuScreen;
 
+import java.awt.*;
+import java.awt.geom.Point2D;
+
 
 public class Engine extends Game {
     public SpriteBatch batch;
@@ -20,21 +23,27 @@ public class Engine extends Game {
     public OrthographicCamera camera;
     public Viewport viewport;
 
-    public float WORLD_WIDTH=640;
-    public float WORLD_HEIGHT=480;
+    public float WORLD_WIDTH=800;
+    public float WORLD_HEIGHT=640;
 
     @Override
     public void create() {
         batch = new SpriteBatch();
         assetManager = new AssetManager();
-        menuScreen = new MenuScreen(this);
-        gameScreen = new GameScreen(this);
         camera = new OrthographicCamera();
         viewport = new FitViewport(WORLD_WIDTH, WORLD_HEIGHT, camera);
 
         viewport.apply(true);
+
+        menuScreen = new MenuScreen(this);
+        gameScreen = new GameScreen(this);
+
         setScreen(menuScreen);
 
+    }
+
+    public Point2D.Float getCenter(){
+        return new Point2D.Float(viewport.getWorldWidth()/2,viewport.getWorldHeight()/2);
     }
 
 
