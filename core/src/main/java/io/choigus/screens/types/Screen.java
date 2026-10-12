@@ -7,7 +7,7 @@ import io.choigus.Engine;
  * Basic screen, doesnt clear background
  */
 public abstract class Screen extends ScreenAdapter {
-    Engine game;
+    public Engine game;
 
     public Screen(Engine game) {
         this.game = game;

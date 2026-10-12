@@ -3,7 +3,9 @@ package io.choigus;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -21,6 +23,9 @@ public class Engine extends Game {
     public OrthographicCamera camera;
     public Viewport viewport;
 
+    public ShapeRenderer shapeRenderer ;
+    public BitmapFont font;
+
     public float WORLD_WIDTH = 800;
     public float WORLD_HEIGHT = 640;
 
@@ -30,11 +35,13 @@ public class Engine extends Game {
         assetManager = new AssetManager();
         camera = new OrthographicCamera();
         viewport = new FitViewport(WORLD_WIDTH, WORLD_HEIGHT, camera);
-
+        shapeRenderer= new ShapeRenderer();
+        font = new BitmapFont();
+        font.getData().setScale(2f);
         viewport.apply(true);
 
-        menuScreen = new MenuScreen(this);
-        gameScreen = new GameScreen(this);
+        menuScreen = new MenuScreen(this,"nubby-blush.png","Right click or suffer");
+        gameScreen = new GameScreen(this,"nubby-blush.png","test.jpg");
 
         setScreen(menuScreen);
 
