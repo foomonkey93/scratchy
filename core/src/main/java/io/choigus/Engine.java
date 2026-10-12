@@ -10,9 +10,6 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import io.choigus.screens.GameScreen;
 import io.choigus.screens.MenuScreen;
 
-import java.awt.*;
-import java.awt.geom.Point2D;
-
 
 public class Engine extends Game {
     public SpriteBatch batch;
@@ -24,8 +21,8 @@ public class Engine extends Game {
     public OrthographicCamera camera;
     public Viewport viewport;
 
-    public float WORLD_WIDTH=800;
-    public float WORLD_HEIGHT=640;
+    public float WORLD_WIDTH = 800;
+    public float WORLD_HEIGHT = 640;
 
     @Override
     public void create() {
@@ -43,8 +40,8 @@ public class Engine extends Game {
 
     }
 
-    public Vector2 getCenter(){
-        return new Vector2(viewport.getWorldWidth()/2,viewport.getWorldHeight()/2);
+    public Vector2 getCenter() {
+        return new Vector2(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2);
     }
 
 
@@ -59,5 +56,6 @@ public class Engine extends Game {
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height, true);
+        super.resize(width, height);
     }
 }

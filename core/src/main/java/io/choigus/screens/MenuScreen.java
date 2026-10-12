@@ -26,7 +26,7 @@ public class MenuScreen extends FreshScreen {
     }
 
     @Override
-    public void show () {
+    public void show() {
         game().assetManager.load("nubby-blush.png", Texture.class);
         game().assetManager.finishLoading();
         background = game().assetManager.get("nubby-blush.png", Texture.class);
@@ -34,17 +34,16 @@ public class MenuScreen extends FreshScreen {
     }
 
 
-
     @Override
-    public void dispose () {
-        if ( game().assetManager.isLoaded("nubby-blush.png")) {
+    public void dispose() {
+        if (game().assetManager.isLoaded("nubby-blush.png")) {
             game().assetManager.unload("nubby-blush.png");
         }
 
     }
 
     @Override
-    public void hide () {
+    public void hide() {
         dispose();
     }
 }

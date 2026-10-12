@@ -12,13 +12,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import io.choigus.Engine;
 import io.choigus.Tile;
-
+import io.choigus.ViewportFrameBuffer;
 import io.choigus.helpers.Utils;
 import io.choigus.screens.types.FreshScreen;
 
-
 import java.awt.*;
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -38,18 +36,20 @@ public class GameScreen extends FreshScreen {
     Random random = new Random();
     private final GlyphLayout layout = new GlyphLayout();
     FrameBuffer frameBuffer;
-    private ShapeRenderer shapeRenderer;
+    private ShapeRenderer shapeRenderer = new ShapeRenderer();
+
 
     private Array<Vector2> scratchPoints = new Array<>();
     private Vector2 tempTouch = new Vector2(); // Temporary vector to avoid memory allocation
+
     public GameScreen(Engine game) {
         super(game);
-        shapeRenderer = new ShapeRenderer();
         reScratchy();
     }
 
     @Override
     protected void onRender(float delta) {
+        game().viewport.apply();
         doGameBits(game());
     }
 
@@ -60,9 +60,6 @@ public class GameScreen extends FreshScreen {
             scratchPoints.add(new Vector2(tempTouch.x, tempTouch.y));
         }
     }
-
-
-
 
 
     public void reScratchy() {
@@ -84,15 +81,15 @@ public class GameScreen extends FreshScreen {
         }
     }
 
-    public void generateNubbyScratch(Engine engine){
+    public void generateNubbyScratch(Engine engine) {
         engine.batch.begin();
-        Vector2 center=game().getCenter();
-        Vector2 textureCenter= Utils.center(background);
-        engine.batch.draw(backgroundScratch, center.x-textureCenter.x, center.y-textureCenter.y);
+        Vector2 center = game().getCenter();
+        Vector2 textureCenter = Utils.center(background);
+        engine.batch.draw(backgroundScratch, center.x - textureCenter.x, center.y - textureCenter.y);
         engine.batch.end();
     }
 
-    public void generateHole(){
+    public void generateHole() {
         Gdx.gl.glEnable(GL20.GL_BLEND);
         Gdx.gl.glBlendFunc(GL20.GL_ZERO, GL20.GL_ONE_MINUS_SRC_ALPHA);
         shapeRenderer.setProjectionMatrix(game().camera.combined);
@@ -100,14 +97,13 @@ public class GameScreen extends FreshScreen {
 
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         for (Vector2 point : scratchPoints) {
-            shapeRenderer.circle(point.x, point.y, 25f); // 25f is brush size
+            shapeRenderer.circle(point.x, point.y, 25f);
         }
-
         shapeRenderer.end();
         Gdx.gl.glDisable(GL20.GL_BLEND);
     }
 
-    public void generateScratchBits(Engine engine){
+    public void generateScratchBits(Engine engine) {
         frameBuffer.begin();
         Gdx.gl.glViewport(0, 0, frameBuffer.getWidth(), frameBuffer.getHeight());
         Gdx.gl.glClearColor(0, 0, 0, 0);
@@ -120,7 +116,6 @@ public class GameScreen extends FreshScreen {
     public void doGameBits(Engine engine) {
 
         generateScratchBits(engine);
-
         engine.batch.begin();
         drawBackground(engine);
         drawTiles(engine);
@@ -132,13 +127,13 @@ public class GameScreen extends FreshScreen {
     }
 
 
-    public void drawBackground(Engine engine){
-        Vector2 center=game().getCenter();
-        Vector2 textureCenter= Utils.center(background);
-        engine.batch.draw(background, center.x-textureCenter.x, center.y-textureCenter.y);
+    public void drawBackground(Engine engine) {
+        Vector2 center = game().getCenter();
+        Vector2 textureCenter = Utils.center(background);
+        engine.batch.draw(background, center.x - textureCenter.x, center.y - textureCenter.y);
     }
 
-    public void drawTiles(Engine engine){
+    public void drawTiles(Engine engine) {
         float xSize = game().WORLD_WIDTH / sizeX;
         float ySize = game().WORLD_HEIGHT / sizeY;
         for (Tile tile : tiles) {
@@ -155,7 +150,7 @@ public class GameScreen extends FreshScreen {
         game().assetManager.load("nubby-blush.png", Texture.class);
         game().assetManager.finishLoading();
         background = game().assetManager.get("nubby-blush.png", Texture.class);
-        backgroundScratch=game().assetManager.get("nubby-blush.png", Texture.class);
+        backgroundScratch = game().assetManager.get("nubby-blush.png", Texture.class);
     }
 
 
@@ -177,7 +172,7 @@ public class GameScreen extends FreshScreen {
         if (frameBuffer != null) {
             frameBuffer.dispose();
         }
-        frameBuffer = new FrameBuffer(Pixmap.Format.RGBA8888, game().viewport.getScreenWidth(), game().viewport.getScreenHeight(), false);
+        frameBuffer = new ViewportFrameBuffer(Pixmap.Format.RGBA8888, (int) game().WORLD_WIDTH, (int) game().WORLD_HEIGHT, false, game().viewport);
 
     }
 
