@@ -9,8 +9,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import io.choigus.screens.GameScreen;
 import io.choigus.screens.MenuScreen;
+import io.choigus.screens.ScratchOffScreen;
 
 
 public class Engine extends Game {
@@ -18,7 +18,7 @@ public class Engine extends Game {
     public AssetManager assetManager;
 
     public MenuScreen menuScreen;
-    public GameScreen gameScreen;
+    public ScratchOffScreen scratchOffScreen;
 
     public OrthographicCamera camera;
     public Viewport viewport;
@@ -41,7 +41,7 @@ public class Engine extends Game {
         viewport.apply(true);
 
         menuScreen = new MenuScreen(this,"nubby-blush.png","Right click or suffer");
-        gameScreen = new GameScreen(this,"nubby-blush.png","test.jpg");
+        scratchOffScreen = new ScratchOffScreen(this,"nubby-blush.png","test.jpg");
 
         setScreen(menuScreen);
 
@@ -56,7 +56,7 @@ public class Engine extends Game {
     public void dispose() {
         batch.dispose();
         assetManager.dispose();
-        gameScreen.dispose();
+        scratchOffScreen.dispose();
         menuScreen.dispose();
     }
 

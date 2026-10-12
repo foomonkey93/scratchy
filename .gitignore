@@ -7,6 +7,10 @@
 # Log file
 *.log
 
+
+*core/build/*
+*lwjgl3/build*
+
 # BlueJ files
 *.ctxt
 

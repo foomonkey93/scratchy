@@ -2,7 +2,6 @@ package io.choigus.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.math.Vector2;
@@ -36,7 +35,7 @@ public class MenuScreen extends FreshScreen {
         game().batch.end();
 
         if (Gdx.input.justTouched() && Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
-            game().setScreen(game().gameScreen);
+            game().setScreen(game().scratchOffScreen);
         }
     }
 
