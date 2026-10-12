@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import io.choigus.screens.GameScreen;
@@ -42,8 +43,8 @@ public class Engine extends Game {
 
     }
 
-    public Point2D.Float getCenter(){
-        return new Point2D.Float(viewport.getWorldWidth()/2,viewport.getWorldHeight()/2);
+    public Vector2 getCenter(){
+        return new Vector2(viewport.getWorldWidth()/2,viewport.getWorldHeight()/2);
     }
 
 

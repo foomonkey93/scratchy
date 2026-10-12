@@ -2,6 +2,7 @@ package io.choigus.helpers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Vector2;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -14,8 +15,8 @@ public class Utils {
      * @param t
      * @return
      */
-    public static Point2D.Float center(Texture t){
-        return new Point2D.Float((t.getWidth() / 2f),(t.getHeight() / 2f));
+    public static Vector2 center(Texture t){
+        return new Vector2((t.getWidth() / 2f),(t.getHeight() / 2f));
     }
 
     /**
@@ -23,7 +24,7 @@ public class Utils {
      * @param t
      * @return
      */
-    public static Point2D.Float center(float width, float height,Texture t){
-        return new Point2D.Float((width - t.getWidth() / 2f),(height - t.getHeight() / 2f));
+    public static Vector2 center(float width, float height,Texture t){
+        return new Vector2((width - t.getWidth() / 2f),(height - t.getHeight() / 2f));
     }
 }

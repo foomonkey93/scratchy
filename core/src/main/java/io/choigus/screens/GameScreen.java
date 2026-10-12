@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import io.choigus.Engine;
 import io.choigus.Tile;
 
@@ -39,9 +40,8 @@ public class GameScreen extends FreshScreen {
     FrameBuffer frameBuffer;
     private ShapeRenderer shapeRenderer;
 
-    private Vector2 lastTouch = new Vector2();
-    private boolean isScratched = false;
-
+    private Array<Vector2> scratchPoints = new Array<>();
+    private Vector2 tempTouch = new Vector2(); // Temporary vector to avoid memory allocation
     public GameScreen(Engine game) {
         super(game);
         shapeRenderer = new ShapeRenderer();
@@ -52,6 +52,16 @@ public class GameScreen extends FreshScreen {
     protected void onRender(float delta) {
         doGameBits(game());
     }
+
+    private void addToScratchPoints() {
+        if (Gdx.input.isTouched()) {
+            tempTouch.set(Gdx.input.getX(), Gdx.input.getY());
+            game().viewport.unproject(tempTouch);
+            scratchPoints.add(new Vector2(tempTouch.x, tempTouch.y));
+        }
+    }
+
+
 
 
 
@@ -74,43 +84,46 @@ public class GameScreen extends FreshScreen {
         }
     }
 
-    public void drawNubbyScratch(Engine engine){
+    public void generateNubbyScratch(Engine engine){
         engine.batch.begin();
-        Point2D.Float center=game().getCenter();
-        Point2D.Float textureCenter= Utils.center(background);
-        System.out.println("center in nub "+(center.x-textureCenter.x) + " "+ (center.y-textureCenter.y));
+        Vector2 center=game().getCenter();
+        Vector2 textureCenter= Utils.center(background);
         engine.batch.draw(backgroundScratch, center.x-textureCenter.x, center.y-textureCenter.y);
         engine.batch.end();
     }
 
-    public void drawHole(){
+    public void generateHole(){
         Gdx.gl.glEnable(GL20.GL_BLEND);
         Gdx.gl.glBlendFunc(GL20.GL_ZERO, GL20.GL_ONE_MINUS_SRC_ALPHA);
         shapeRenderer.setProjectionMatrix(game().camera.combined);
+        addToScratchPoints();
+
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(0, 0, 0, 1f);
-        shapeRenderer.circle(300, 400, 100);
+        for (Vector2 point : scratchPoints) {
+            shapeRenderer.circle(point.x, point.y, 25f); // 25f is brush size
+        }
+
         shapeRenderer.end();
         Gdx.gl.glDisable(GL20.GL_BLEND);
+    }
 
+    public void generateScratchBits(Engine engine){
+        frameBuffer.begin();
+        Gdx.gl.glViewport(0, 0, frameBuffer.getWidth(), frameBuffer.getHeight());
+        Gdx.gl.glClearColor(0, 0, 0, 0);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        generateNubbyScratch(engine);
+        generateHole();
+        frameBuffer.end();
     }
 
     public void doGameBits(Engine engine) {
 
-        frameBuffer.begin();
-        Gdx.gl.glClearColor(0, 0, 0, 0);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        drawNubbyScratch(engine);
-        drawHole();
-        frameBuffer.end();
-        engine.viewport.apply();
-        engine.batch.setProjectionMatrix(engine.viewport.getCamera().combined);
+        generateScratchBits(engine);
 
         engine.batch.begin();
         drawBackground(engine);
         drawTiles(engine);
-
 
         Texture fboTex = frameBuffer.getColorBufferTexture();
         engine.batch.draw(fboTex, 0, 0, game().WORLD_WIDTH, game().WORLD_HEIGHT, 0, 0, 1, 1);
@@ -120,10 +133,8 @@ public class GameScreen extends FreshScreen {
 
 
     public void drawBackground(Engine engine){
-        Point2D.Float center=game().getCenter();
-        Point2D.Float textureCenter= Utils.center(background);
-        System.out.println("center out nub "+(center.x-textureCenter.x) + " "+ (center.y-textureCenter.y));
-
+        Vector2 center=game().getCenter();
+        Vector2 textureCenter= Utils.center(background);
         engine.batch.draw(background, center.x-textureCenter.x, center.y-textureCenter.y);
     }
 
